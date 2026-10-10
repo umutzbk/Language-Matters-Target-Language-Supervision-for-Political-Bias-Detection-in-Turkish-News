@@ -10,7 +10,9 @@ and does it matter which language the model was trained in? This repository comp
 monolingual, multilingual and decoder-based models on a three-class political-bias task, with
 fold-level and cross-model ensembling.
 
-**Notebook:** [`Transformer-Based Bias Classifier.ipynb`](Transformer-Based%20Bias%20Classifier.ipynb)
+**Notebooks:**
+- [`Transformer-Based Bias Classifier.ipynb`](Transformer-Based%20Bias%20Classifier.ipynb): Turkish models, fold and cross-model ensembles
+- [`cross_lingual_transfer.ipynb`](cross_lingual_transfer.ipynb): English supervision evaluated zero-shot on Turkish
 
 ---
 
@@ -37,8 +39,10 @@ What the numbers say:
   still add complementary signal, lifting the cross-model ensemble from 0.693 to 0.735 macro-F1.
 - **Right-leaning articles are the hardest class** for every model (BERTurk F1 0.66, XLM-R 0.58,
   mBERT 0.53).
-- The paper also reports cross-lingual transfer: models fine-tuned on English political-bias data
-  and evaluated zero-shot on Turkish do not transfer well, which is the "language matters" result.
+- **English supervision does not transfer.** A model fine-tuned on English political-bias news
+  reaches 0.54 accuracy on English validation folds and 0.57 on an English test set, but only
+  **0.36 accuracy** on the Turkish test set, barely above chance for three classes (see `cross_lingual_transfer.ipynb`). That
+  gap is the "language matters" result.
 
 ## Data
 
