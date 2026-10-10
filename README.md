@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/banner.png" alt="Language Matters: target-language supervision for political bias detection in Turkish news"></p>
+
 # Language Matters: Target-Language Supervision for Political Bias Detection in Turkish News
 
 Fine-tuning and evaluation code for the paper
@@ -30,6 +32,8 @@ its five fold checkpoints are averaged at test time.
 | **Cross-model ensemble** (all four, mean logits) | | **0.732** | **0.735** | |
 | Cross-model ensemble without Mistral | | 0.691 | 0.693 | |
 
+<p align="center"><img src="assets/macro-f1.png" alt="Macro-F1 by model: BERTurk 0.71, XLM-R 0.63, mBERT 0.61, Mistral 0.52, ensembles 0.693 and 0.735" width="100%"></p>
+
 What the numbers say:
 
 - **Target-language pre-training wins.** The Turkish monolingual encoder beats both multilingual
@@ -39,10 +43,14 @@ What the numbers say:
   still add complementary signal, lifting the cross-model ensemble from 0.693 to 0.735 macro-F1.
 - **Right-leaning articles are the hardest class** for every model (BERTurk F1 0.66, XLM-R 0.58,
   mBERT 0.53).
+
+  <p align="center"><img src="assets/confusion-grid.png" alt="Row-normalised confusion matrices for the four models and the ensemble" width="100%"></p>
 - **English supervision does not transfer.** A model fine-tuned on English political-bias news
   reaches 0.54 accuracy on English validation folds and 0.57 on an English test set, but only
   **0.36 accuracy** on the Turkish test set, barely above chance for three classes (see `cross_lingual_transfer.ipynb`). That
   gap is the "language matters" result.
+
+  <p align="center"><img src="assets/cross-lingual.png" alt="Accuracy of an English-trained model: 0.54 and 0.57 in English, 0.36 on Turkish" width="85%"></p>
 
 ## Data
 
@@ -64,6 +72,11 @@ CSV with `Source`, `Title`, `URL`, `Content` and `search_keyword` columns.
 
 ## Method
 
+<p align="center"><img src="assets/method.png" alt="Method: collect, label, clean, split; fine-tune four model families with 5-fold CV, fold ensemble, cross-model ensemble" width="100%"></p>
+
+<details>
+<summary>Same flow as a text diagram</summary>
+
 ```
 raw articles ─► clean + outlet labels ─► stratified 80/20 split
                                            │
@@ -78,6 +91,8 @@ raw articles ─► clean + outlet labels ─► stratified 80/20 split
                                                            ▼
                                      accuracy · precision · recall · macro-F1 · confusion matrices
 ```
+
+</details>
 
 - **Encoders:** 3-class sequence classification, max length 128, batch 16, up to 20 epochs with
   early stopping on validation loss.
